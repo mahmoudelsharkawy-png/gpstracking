@@ -1,12 +1,12 @@
 import { colors } from "@/constants/theme";
-import { Image } from 'expo-image';
+import { Image } from "expo-image";
 import React from "react";
 import {
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
-  StyleSheet
+  StyleSheet,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -20,45 +20,45 @@ export function AuthScreenLayout({ children }: Props) {
   const insets = useSafeAreaInsets();
 
   return (
-    <ImageBackground
-      source={authBg}
-      style={styles.bg}
-      resizeMode="cover"
-    >
+    <ImageBackground source={authBg} style={styles.bg} resizeMode="cover">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
-        className="flex-1"
-        style={{ paddingTop: insets.top  }}
+        style={styles.flex}
       >
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={[
-            styles.scrollContent,
-            { paddingBottom: Math.max(insets.bottom, 24) + 8 },
+        <View
+          style={[
+            styles.content,
+            {
+              paddingTop: insets.top + 20,
+              paddingBottom: Math.max(insets.bottom, 24) + 12,
+            },
           ]}
-          showsVerticalScrollIndicator={false}
         >
-
           <Image
-                  source={require('@/assets/trackoo.png')}
-                  contentFit="cover"
-                  style={{ width: 180, height: 70, alignSelf: 'center' }}
-                />
- 
+            source={require("@/assets/trackoo.png")}
+            contentFit="contain"
+            style={styles.logo}
+          />
           {children}
-        </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  flex: { flex: 1 },
   bg: {
     flex: 1,
     backgroundColor: colors.background,
   },
-  scrollContent: {
+  content: {
     paddingHorizontal: 24,
-    paddingTop: 20,
+  },
+  logo: {
+    width: 180,
+    height: 70,
+    alignSelf: "center",
+    marginBottom: 8,
   },
 });
